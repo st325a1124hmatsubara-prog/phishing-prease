@@ -1,0 +1,43 @@
+name: Strix Autonomous Security Scan
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  strix-pentest:
+    name: Strix AI Security Penetration Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Strix Agent (usestrix/strix)
+        run: |
+          pipx install strix-agent
+
+      - name: Run Strix Non-Interactive Security Scan
+        env:
+          STRIX_LLM: ${{ secrets.STRIX_LLM }}
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+        run: |
+          strix -n --target . --scan-mode standard
+
+      - name: Upload Strix Security Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: strix-security-reports
+          path: strix_runs/
+          if-no-files-found: ignore

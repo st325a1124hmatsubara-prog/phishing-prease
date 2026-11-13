@@ -1,0 +1,6 @@
+{
+  "name": "PHISHING, PLEASE",
+  "description": "企業のメールセキュリティ管理室を舞台にした、実践的フィッシングメール審査シミュレーションゲーム。メールの各項目を調査・分析し、会社のセキュリティを守り抜け。",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
